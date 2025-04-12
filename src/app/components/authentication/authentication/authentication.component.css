@@ -1,0 +1,118 @@
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--dark-gray-o);
+    color: var(--white);
+}
+
+.screen {
+    background-image: url('/assets/image/4047989.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* طبقة سوداء شفافة */
+    z-index: 1; /* تأكد من أن الطبقة فوق الخلفية */
+}
+
+.signup-card {
+    background-color: rgba(255, 255, 255, 0.429);
+    border-radius: 15px;
+    box-shadow: 
+        0 0 50px rgba(255, 255, 255, 0.8),
+        0 0 50px rgba(255, 255, 255, 0.6),
+        0 0 50px rgba(255, 255, 255, 0.4);
+    width: 100%;
+    max-width: 50%;
+    max-height: 90vh;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 5;
+    transition: height 0.3s ease-in-out;
+}
+
+/* عند عرض تسجيل الدخول */
+.signup-card.login-mode {
+    height: 65vh !important;
+}
+
+/* عند عرض نموذج التسجيل */
+.signup-card.register-mode {
+    height: 81vh !important;
+}
+@keyframes zoomInDown {
+    from {
+      opacity: 0;
+      transform: scale3d(0.1, 0.1, 0.1) translateY(-100%);
+    }
+    60% {
+      opacity: 1;
+      transform:  translateY(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+  }
+  
+  .animate-zoomInDown {
+    animation: zoomInDown 0.8s ease-out;
+  }
+  
+
+/* تأثير الإضاءة المركزية من الأعلى */
+.signup-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent 70%);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+    animation: lightEffect 3s infinite alternate; /* تأثير إضاءة متحرك */
+}
+
+/* تأثير إضاءة إضافية عند التحويم */
+.signup-card:hover::before {
+    background: radial-gradient(circle, rgba(255, 255, 255, 1), transparent 70%);
+}
+
+/* تحريك تأثير الإضاءة */
+@keyframes lightEffect {
+    0% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* تحسين النص والعناصر داخل الـ card */
+.signup-card h2 {
+    color: var(--dark-gray-o);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+}

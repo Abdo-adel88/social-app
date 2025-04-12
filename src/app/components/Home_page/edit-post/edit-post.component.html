@@ -1,0 +1,49 @@
+<form #editForm="ngForm" (ngSubmit)="submitEdit(editForm)">
+    <div class="flex flex-column gap-3">
+  
+      <textarea
+        pInputTextarea
+        name="body"
+        [(ngModel)]="bodyText"
+        rows="5"
+        placeholder="Edit your post..."
+        required
+        autoResize="true"
+        class="w-full border border-gray-300 p-3 rounded-md"
+      ></textarea>
+  
+      <div *ngIf="postToEdit?.image" class="mb-2">
+        <p class="text-sm text-gray-500 mb-1">Current Image:</p>
+        <img [src]="postToEdit.image" alt="Post Image" class="max-w-full max-h-60 rounded border" />
+      </div>
+  
+      <p-fileUpload
+        mode="advanced"
+        name="image"
+        accept="image/*"
+        [auto]="true"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        [customUpload]="true"
+        (uploadHandler)="onFileSelected($event)"
+        class="custom-uploader"
+      >
+        <ng-template pTemplate="content">
+          <div class="upload-box flex flex-column align-items-center justify-content-center text-center p-5">
+            <i class="pi pi-cloud-upload text-4xl mb-3 text-gray-500"></i>
+            <p class="m-0 text-sm">
+              <strong>Click to upload</strong> or drag and drop<br />
+              SVG, PNG, JPG or GIF (MAX. 800x400px)
+            </p>
+          </div>
+        </ng-template>
+      </p-fileUpload>
+  
+      <div class="flex justify-content-end gap-2 mt-3">
+        <button pButton type="submit" label="Update Post" class="text-white border px-4 py-2 rounded-md"></button>
+        <button pButton type="button" label="Close" (click)="closeDialog()" class="bg-white text-gray-800 border px-4 py-2 rounded-md"></button>
+      </div>
+  
+    </div>
+  </form>
+  

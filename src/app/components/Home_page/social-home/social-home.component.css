@@ -1,0 +1,164 @@
+.text-gray-o {
+  color: var(--gray-o);
+}
+
+body {
+  color: var(--dark);
+}
+.w-15-percent {
+  width: 15% !important;
+}
+.w-75-percent {
+  width: 70% !important;
+}
+::ng-deep {
+  .custom-user-menu {
+    &.p-dropdown {
+      background: rgba(0, 0, 0, 0.5) !important;
+      border: 1px solid #b7b8f2 !important;
+      border-radius: 20px !important;
+      transition: all 0.3s ease;
+
+      .p-dropdown-label {
+        padding: 0 !important;
+        background: transparent !important;
+        color: inherit !important;
+      }
+
+      .user-trigger {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        padding: 0.4rem 1rem !important;
+        color: white !important;
+
+        .pi-user {
+          font-size: 1rem !important;
+          color: inherit !important;
+        }
+
+        span {
+          font-weight: 500 !important;
+          color: inherit !important;
+        }
+      }
+
+      .p-dropdown-trigger {
+        width: 1.5rem !important;
+        color: white !important;
+
+        .pi-chevron-down {
+          font-size: 0.7rem !important;
+          color: inherit !important;
+        }
+      }
+    }
+
+    .p-dropdown-panel {
+      background: rgba(0, 0, 0, 0.9) !important;
+      border: 1px solid #b7b8f2 !important;
+      border-radius: 6px !important;
+      margin-top: 0.3rem !important;
+
+      .p-dropdown-items {
+        .p-dropdown-item {
+          color: white !important;
+          background: transparent !important;
+
+          &:hover {
+            background: rgba(183, 184, 242, 0.2) !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+::ng-deep body .custom-user-menu.p-dropdown,
+::ng-deep body .p-dropdown,
+::ng-deep body .custom-user-menu.p-dropdown * {
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: white !important;
+}
+
+::ng-deep
+  body
+  .p-dropdown-panel
+  ::ng-deep
+  body
+  .p-dropdown-panel
+  .p-dropdown-items
+  .p-dropdown-item.p-highlight {
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: red !important;
+}
+/* ::ng-deep body .p-component {
+  padding: 11px !important;
+} */
+::ng-deep body .p-inputtext {
+  padding: 3px ;
+  
+}
+::ng-deep .p-inputtext::placeholder {
+  color: var(--dark) !important; /* لون أسود */
+  opacity: 1 !important;  /* تأكد إن الشفافية مش مأثرة */
+}
+
+::ng-deep .p-dropdown-panel .p-dropdown-items {
+  padding:0px ;
+  background-color: var(--accent-t) !important;     
+  border-radius: 5px !important;
+}
+.user-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.special-user-post {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+.menu-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.menu-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  color: #333;
+  list-style: none;
+  padding: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  width: 120px;
+  z-index: 1000;
+}
+
+.custom-dropdown li {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.custom-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+.bg-gray-800 {
+  background-color: #f6f6f6 !important;
+  border-radius: 10px;
+}
+.z-100{
+  z-index: 1000 !important;
+}

@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+@import "animate.css";
+
+:root {
+  --white: #ffffff;
+  --dark: #000000;
+  --gray-o: #969696;
+  --gray-t: #efefef;
+  --dark-gray-o: #222222;
+  --dark-gray-t: #333333;
+  --accent-o: #f5e876;
+  --accent-t: #b7b8f2;
+  --bg-gray-h: #f2f4f7;
+  --bg-blue: #3b82f6;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-gray-h);
+  /* background: linear-gradient(0deg, #000000 1%, #ffffff 99%) ; */
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--white) ;
+}
+
+.text-gray-o {
+  color: var(--gray-o);
+}
+.dark {
+  color: var(--dark);
+}
+.accent-t {
+  border: #b7b8f2 1px solid !important;
+}
+.bg-gray-h {
+  background-color: var(--bg-gray-h);
+}
+
+input::placeholder {
+  color: #ccc;
+}
+
+.bg-blue-btn {
+  background-color: var(--bg-blue);
+}

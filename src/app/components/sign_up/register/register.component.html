@@ -1,0 +1,94 @@
+<div class="ml-5">
+  <div *ngIf="errorMessage()" class="alert alert-danger">
+    {{ errorMessage() }}
+  </div>
+  <div *ngIf="successMessage()" class="alert alert-success">
+    {{ successMessage() }}
+  </div>
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit($event, signupForm)">
+    <div>
+      <label for="name" class="form-label">Full Name</label>
+      <input type="text" class="form-control" formControlName="name" required />
+    </div>
+    <div>
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        formControlName="email"
+        required
+      />
+    </div>
+    <div>
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        formControlName="password"
+        required
+      />
+    </div>
+    <div>
+      <label for="rePassword" class="form-label">Confirm Password</label>
+      <input
+        type="password"
+        class="form-control"
+        formControlName="rePassword"
+        required
+      />
+    </div>
+    <div>
+      <label for="dateOfBirth" class="form-label">Date of Birth</label>
+      <div class="card flex justify-content-center">
+        <!-- <p-calendar [style]="{ width: '100%' }"
+            formControlName="dateOfBirth"
+       
+            >
+          </p-calendar> -->
+        <input
+          type="date"
+          class="form-control"
+          formControlName="dateOfBirth"
+          required
+        />
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label">Gender</label>
+      <div class="d-flex gap-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="male"
+            formControlName="gender"
+            value="male"
+            required
+          />
+          <label class="form-check-label" for="male">Male</label>
+        </div>
+
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="female"
+            formControlName="gender"
+            value="female"
+            required
+          />
+          <label class="form-check-label" for="female">Female</label>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="btn btn-primary w-100"
+      [disabled]="signupForm.invalid || isLoading()"
+    >
+      <span *ngIf="isLoading()">Loading...</span>
+      <span *ngIf="!isLoading()">Sign Up</span>
+    </button>
+</form>
+</div>

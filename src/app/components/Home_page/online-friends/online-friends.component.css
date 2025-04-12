@@ -1,0 +1,20 @@
+:host {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+}
+.online-friends {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+}
+.bg-green-50 {
+background-color: #1bda74 !important;
+  color: #1bda74 !important;
+  border-radius: 50%;
+  height: 25% !important;
+}

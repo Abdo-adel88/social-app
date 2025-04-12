@@ -1,0 +1,48 @@
+<div class="screen">
+  <div class="overlay"></div>
+  <div
+    class="signup-card animate-zoomInDown"
+    [ngClass]="{
+      'login-mode': isLoginMode(), 
+      'register-mode': !isLoginMode(),
+      
+    }"
+  >
+    <h2 class="text-center">Create an Account</h2>
+    <div class="flex align-items-center justify-content-center">
+      <div>
+        <dotlottie-player
+          src="https://lottie.host/0db92262-9986-4c9f-b80c-4c4332c793f5/x7UFf4j76C.lottie"
+          background="transparent"
+          speed="1"
+          style="width: 300px; height: 400px"
+          loop
+          autoplay
+        >
+        </dotlottie-player>
+      </div>
+      <div>
+        <app-register
+          *ngIf="!isLoginMode()"
+          (registrationSuccess)="onRegistrationSuccess()"
+        ></app-register>
+        <app-login *ngIf="isLoginMode()"></app-login>
+
+        <a
+          class="flex align-items-center justify-content-center mt-2 ml-5"
+          (click)="toggleMode()"
+          style="cursor: pointer; text-decoration: none"
+        >
+          {{
+            isLoginMode() ? "Create an account!" : "Already have an account?"
+          }}
+        </a>
+      </div>
+    </div>
+  </div>
+  <p-toast 
+    [showTransformOptions]="'translateY(100%)'" 
+    [showTransitionOptions]="'1000ms'" 
+    [hideTransitionOptions]="'1000ms'">
+  </p-toast>
+</div>

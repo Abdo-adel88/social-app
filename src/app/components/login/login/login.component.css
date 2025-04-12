@@ -1,0 +1,107 @@
+
+
+.form-label {
+    color: var(--dark);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--dark);
+    border-radius: 8px;
+    padding: 0.75rem;
+    width: 329.36px;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    display: block;
+}
+
+.form-control:focus {
+    border-color: var(--accent-t);
+    outline: none;
+    box-shadow: 0 0 10px var(--accent-t);
+}
+
+.btn-primary {
+    background-color: var(--accent-t);
+    border: none;
+    color: var(--dark);
+    padding: 6px;
+    margin-top: 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-o);
+    transform: translateY(-2px);
+}
+
+
+
+.d-flex {
+    display: flex;
+}
+
+.gap-3 {
+    gap: 1rem;
+}
+
+.h-sc {
+    height: 100vh;
+}
+/* تغيير لون الدائرة عند التحديد */
+/* إخفاء المظهر الافتراضي */
+.form-check-input {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #b7b8f2;
+    border-radius: 50%;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  /* عند تحديده */
+  .form-check-input:checked {
+    background-color: #b7b8f2;
+    border: 2px solid #b7b8f2;
+    box-shadow: 0 0 5px #b7b8f2;
+  }
+  
+  /* التأثير عند الضغط */
+  .form-check-input:focus {
+    outline: 2px solid #b7b8f2;
+    box-shadow: 0 0 5px #b7b8f2;
+  }
+  
+/*/* تخصيص شكل حقل الإدخال */
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* تحسين المظهر عند التركيز */
+input[type="date"]:focus {
+    border-color: #6c5ce7;
+    box-shadow: 0 0 5px rgba(108, 92, 231, 0.5);
+    outline: none;
+}
+
+/* تخصيص لون أيقونة التقويم في بعض المتصفحات */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(30%);
+    cursor: pointer;
+}
+ /* تخصيص شكل حقل الإدخال */
+ 

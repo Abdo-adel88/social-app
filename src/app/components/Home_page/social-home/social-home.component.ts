@@ -15,8 +15,13 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { EditPostComponent } from '../edit-post/edit-post.component';
 import { DeletePostComponent } from '../delete-post/delete-post.component';
 import { FormsModule } from '@angular/forms';
-import { Menu } from 'primeng/menu';
-import { ViewChild } from '@angular/core';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { EditCommentComponent } from '../edit-comment/edit-comment.component';
+import { LoadingHomeComponent } from '../loading-home/loading-home.component';
+import { RightBarComponent } from '../right-bar/right-bar.component';
 @Component({
   selector: 'app-social-home',
   standalone: true,
@@ -35,9 +40,13 @@ import { ViewChild } from '@angular/core';
     EditPostComponent,
     DeletePostComponent,
     FormsModule,
-
+    ConfirmDialogModule,
+    ConfirmPopupModule,
+    EditCommentComponent,
+    LoadingHomeComponent,
+    RightBarComponent
   ],
-
+  providers: [ConfirmationService, MessageService],
   templateUrl: './social-home.component.html',
   styleUrls: ['./social-home.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -50,6 +59,7 @@ export class SocialHomeComponent {
   editingPost: any = null;
   isEditing: boolean = false;
   userId: string = '';
+  rightBar: any;
   // الخصائص
   selectedPost: any = null; // سيتم تعيين البوست الذي سيتم تعديله هنا
   posts: any[] = [];
@@ -58,7 +68,9 @@ export class SocialHomeComponent {
   bodyText: string = ''; // Property to hold the text of the post being edited
   selectedImage: string | null = null; // Property to hold the selected image
   commentInputs: { [postId: string]: string } = {};
-
+  commentToDelete: { commentId: string; postId: string } | null = null;
+  showDeleteCommentDialog: boolean = false;
+  loading = true;
   ngOnInit(): void {
     this.authService.getUserProfile().subscribe({
       next: (res) => {
@@ -66,13 +78,12 @@ export class SocialHomeComponent {
         this.userImg = res.user.photo;
         this.userId = res.user._id;
 
-
         // نجيب أول بوست خاص بالمستخدم
         // نجيب أول بوستين خاصين بالمستخدم
         this.authService.getUserPosts(this.userId).subscribe({
           next: (userPostsRes) => {
             const userPosts = userPostsRes.posts.slice(0, 2); // أول اتنين بوست ليه
-
+           
             // نجيب كل البوستات العامة
             this.authService.getAllPosts().subscribe({
               next: (res) => {
@@ -86,8 +97,10 @@ export class SocialHomeComponent {
                     ...post,
                     showComments: false,
                     isUserPost: true,
+                  
+                  
                   }));
-
+                  this.loading = false
                   const filteredPosts = allPosts.filter(
                     (p: { _id: string }) =>
                       !userPosts.some((up: any) => up._id === p._id)
@@ -97,6 +110,7 @@ export class SocialHomeComponent {
                 } else {
                   this.posts = allPosts;
                 }
+                this.loading = false;
               },
               error: (err) => {
                 console.error('Error fetching all posts:', err);
@@ -105,6 +119,7 @@ export class SocialHomeComponent {
           },
           error: (err) => {
             console.error('Error fetching user posts:', err);
+            this.loading = false;
           },
         });
       },
@@ -112,6 +127,15 @@ export class SocialHomeComponent {
         console.error('Error fetching profile data:', err);
       },
     });
+    // this.authService.getUserPosts(this.userId).subscribe({
+    //   next: (res) => {
+    //     this.posts = res.posts;
+    //     this.loading = false;
+    //   },
+    //   error: () => {
+    //     this.loading = false;
+    //   }
+    // });
   }
 
   private router = inject(Router);
@@ -167,21 +191,20 @@ export class SocialHomeComponent {
     if (!isComment) {
       // أغلق المنيو الخاص بالبوستات
       this.posts.forEach((p) => {
-        if (p !== post) p.showMenu = false;  // هنا بنغلق المنيو الخاص بالبوستات
+        if (p !== post) p.showMenu = false; // هنا بنغلق المنيو الخاص بالبوستات
       });
-      post.showMenu = !post.showMenu;  // هنا بنفتح المنيو الخاص بالبوست
+      post.showMenu = !post.showMenu; // هنا بنفتح المنيو الخاص بالبوست
     } else {
       // أغلق المنيو الخاص بالكومنتات
       this.posts.forEach((p) => {
         p.comments.forEach((c: any) => {
-          if (c !== post) c.showCommentMenu = false;  // هنا بنغلق المنيو الخاص بالكومنت
+          if (c !== post) c.showCommentMenu = false; // هنا بنغلق المنيو الخاص بالكومنت
         });
       });
-      post.showCommentMenu = !post.showCommentMenu;  // هنا بنفتح المنيو الخاص بالكومنت
+      post.showCommentMenu = !post.showCommentMenu; // هنا بنفتح المنيو الخاص بالكومنت
     }
   }
-  
-  
+
   // الدوال
   reloadPosts(): void {
     // من الممكن استدعاء API هنا لإعادة تحميل البوستات أو تحديثها
@@ -235,7 +258,7 @@ export class SocialHomeComponent {
   submitComment(postId: string) {
     const content = this.commentInputs[postId];
     if (!content || content.trim() === '') return;
-  
+
     this.authService.createComment(content, postId).subscribe({
       next: (res) => {
         console.log('Comment created:', res);
@@ -247,21 +270,69 @@ export class SocialHomeComponent {
       },
     });
   }
+  editCommentDialogVisible: boolean = false;
+  editingCommentContent: string = '';
+  editingCommentId: string = '';
+  
   editComment(comment: any) {
     console.log('Editing comment:', comment);
-    // هنا ممكن تفتح Dialog أو أي طريقة للتعديل
+    this.editingCommentId = comment._id;
+    this.editingCommentContent = comment.content;
+    this.editCommentDialogVisible = true;
   }
   
-  deleteComment(commentId: string, postId: string) {
-    this.authService.deleteComment(commentId).subscribe({
+  submitEditedComment() {
+    this.authService.updateComment(this.editingCommentId, this.editingCommentContent).subscribe({
       next: () => {
-        console.log('Comment deleted');
-        this.reloadPosts(); // تحديث البيانات بعد الحذف
+        this.messageService.add({ severity: 'success', summary: 'Updated', detail: 'Comment updated successfully' });
+        this.editCommentDialogVisible = false;
+        this.reloadPosts(); // إعادة تحميل البوستات
       },
       error: (err) => {
-        console.error('Error deleting comment:', err);
-      },
+        console.error('Error updating comment:', err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update comment' });
+      }
     });
   }
   
+
+  // في الكومبوننت:
+  
+
+  selectedCommentId: string | null = null;
+  selectedPostId: string | null = null;
+  constructor(
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService, // لو عايز Toast بعد الحذف
+  
+  ) {}
+
+  confirmDeleteComment(event: Event, commentId: string, postId: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete this comment?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.deleteComment(commentId, postId);
+      },
+      reject: () => {
+        console.log('Comment deletion canceled');
+      }
+    });
+  }
+
+  deleteComment(commentId: string, postId: string) {
+    this.authService.deleteComment(commentId).subscribe({
+      next: () => {
+        console.log('Comment deleted successfully');
+        this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Comment deleted successfully' });
+        // هنا ممكن تحدث UI أو تعيد تحميل الكومنتات
+      },
+      error: (err) => {
+        console.error('Failed to delete comment', err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete comment' });
+      },
+    });
+  }
 }

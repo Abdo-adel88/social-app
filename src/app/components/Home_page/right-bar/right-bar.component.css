@@ -1,0 +1,34 @@
+:host {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+}
+.online-friends {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+}
+::ng-deep .p-sidebar {
+  pointer-events: auto !important;
+}
+::ng-deep .p-sidebar {
+  background-color: rgba(0, 0, 0, 0.5);
+  gap: 10px;
+ 
+  
+  color: white;
+  
+  backdrop-filter: blur(6px);
+  
+}
+::ng-deep .p-sidebar-left {
+  
+  width: 100%;
+}
+.p-sidebar {
+  backdrop-filter: blur(6px);
+}

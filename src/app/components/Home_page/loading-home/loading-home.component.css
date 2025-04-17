@@ -1,0 +1,23 @@
+::ng-deep .p-skeleton{
+    margin-bottom: 10px !important;
+}
+::ng-deep .p-card .p-card-content {
+    
+    padding: 15px !important;
+}
+::ng-deep .p-card {
+    background: #4e4e4e;
+    
+}
+ .p-card {
+    background: #4e4e4e;
+    
+}
+::ng-deep .p-card-title {
+    color: var(--white) !important;
+}
+::ng-deep .p-card-subtitle {
+    color: var(--white) !important;
+}
+::ng-deep .p-skeleton {
+    background-color: #252525;}

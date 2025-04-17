@@ -1,3 +1,13 @@
+.screen {
+  background-image: url('/assets/image/liquid-marbling-paint-texture-background-fluid-painting-abstract-texture-intensive-color-mix-wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+  background-attachment: fixed; /* خلفية ثابتة */
+  height: 100vh;
+  overflow-y: scroll; /* تمكين التمرير داخل الـ div */
+}
+
 .text-gray-o {
   color: var(--gray-o);
 }
@@ -7,6 +17,12 @@ body {
 }
 .w-15-percent {
   width: 15% !important;
+}
+.w-15-perc {
+  width: 15% !important;
+}
+.w-15-per {
+  width: 10% !important;
 }
 .w-75-percent {
   width: 70% !important;
@@ -72,6 +88,24 @@ body {
       }
     }
   }
+  .p-menubar {
+    display: flex;
+    justify-content: space-between; /* توزيع المساحة بين start و end */
+    align-items: center; /* محاذاة العناصر عموديًا */
+  }
+  
+  .p-menubar .p-menubar-start,
+  .p-menubar .p-menubar-end {
+    display: flex;
+    align-items: center;
+  }
+  
+  .p-menubar .p-menubar-center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
 }
 
 ::ng-deep body .custom-user-menu.p-dropdown,
@@ -109,6 +143,18 @@ body {
   background-color: var(--accent-t) !important;     
   border-radius: 5px !important;
 }
+::ng-deep .p-card .p-card-content {
+  padding:0px ;
+  
+}
+::ng-deep .p-card .p-card-body {
+  padding:0px ;
+  
+}
+::ng-deep .p-menubar {
+  background-color: #00000000;
+  border: none;
+}
 .user-img {
   width: 30px;
   height: 30px;
@@ -120,8 +166,8 @@ body {
 }
 .menu-wrapper {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 25px;
+  right: 14px;
 }
 
 .menu-icon {
@@ -161,4 +207,18 @@ body {
 }
 .z-100{
   z-index: 1000 !important;
+}
+.z-11110{
+  z-index: 11110 !important;
+  background-color: #00000076;
+}
+.top-10{
+  top: 54px !important;
+}
+.right-10{
+  right: 15px !important;
+}
+
+.left-0{
+  left: 0 !important;
 }

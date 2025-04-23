@@ -8,9 +8,10 @@
   flex-direction: column;
   gap: 10px;
   padding: 10px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(6px);
+  border-right: #7e7e7e 0.2px solid;
 }
 .bg-green-50 {
 background-color: #1bda74 !important;

@@ -1,23 +1,40 @@
-::ng-deep .p-skeleton{
-    margin-bottom: 10px !important;
+::ng-deep .p-skeleton {
+  margin-bottom: 10px !important;
 }
 ::ng-deep .p-card .p-card-content {
-    
-    padding: 15px !important;
+  padding: 15px !important;
 }
 ::ng-deep .p-card {
-    background: #4e4e4e;
-    
+  background: #4e4e4e;
 }
- .p-card {
-    background: #4e4e4e;
-    
+.p-card {
+  background: #4e4e4e;
 }
 ::ng-deep .p-card-title {
-    color: var(--white) !important;
+  color: var(--white) !important;
 }
 ::ng-deep .p-card-subtitle {
-    color: var(--white) !important;
+  color: var(--white) !important;
 }
 ::ng-deep .p-skeleton {
-    background-color: #252525;}
+  background-color: #252525;
+}
+.responsive-skeleton {
+  width: 940px;
+  height: 30px;
+}
+
+@media (max-width: 900px) {
+  .responsive-skeleton {
+    width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-skeleton {
+    width: 100%;
+  }
+}
+.z-0{
+    z-index: 0 !important;
+  }

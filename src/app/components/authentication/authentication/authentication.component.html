@@ -8,7 +8,12 @@
       
     }"
   >
-    <h2 class="text-center">Create an Account</h2>
+  <h2 class="text-center" *ngIf="isLoginMode()">Welcome Back!</h2>
+  <p class="text-center " *ngIf="isLoginMode()" >Log in to your account</p>
+
+  <h2 class="text-center" *ngIf="!isLoginMode()">Create an Account</h2>
+  <p class="text-center " *ngIf="!isLoginMode()">Join us today. It’s quick and easy!</p>
+  
     <div class="flex align-items-center justify-content-center">
       <div>
         <dotlottie-player

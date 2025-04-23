@@ -20,7 +20,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class PopupPostComponent {
   @Output() onPostCreated = new EventEmitter();
   @Output() onClose = new EventEmitter<void>();
-
+  @Output() onPostUpdated = new EventEmitter<void>();
   bodyText: string = '';
   selectedImage: File | null = null;
 
@@ -44,6 +44,8 @@ export class PopupPostComponent {
           this.selectedImage = null;
           this.onPostCreated.emit();
           this.onClose.emit();
+          this.onPostUpdated.emit(); // ✅ ده اللي هيعمل reload في الأب (SocialHomeComponent)
+          
         },
         error: (err) => console.error('Error creating post', err),
       });

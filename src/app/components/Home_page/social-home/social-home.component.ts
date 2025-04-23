@@ -22,6 +22,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { EditCommentComponent } from '../edit-comment/edit-comment.component';
 import { LoadingHomeComponent } from '../loading-home/loading-home.component';
 import { RightBarComponent } from '../right-bar/right-bar.component';
+import { CustomDatePipe } from '../../../pipes/custom-date.pipe';
 @Component({
   selector: 'app-social-home',
   standalone: true,
@@ -44,8 +45,9 @@ import { RightBarComponent } from '../right-bar/right-bar.component';
     ConfirmPopupModule,
     EditCommentComponent,
     LoadingHomeComponent,
-    RightBarComponent
-  ],
+    RightBarComponent,
+    CustomDatePipe
+],
   providers: [ConfirmationService, MessageService],
   templateUrl: './social-home.component.html',
   styleUrls: ['./social-home.component.css'],
@@ -77,7 +79,6 @@ export class SocialHomeComponent {
         this.userName = res.user.name;
         this.userImg = res.user.photo;
         this.userId = res.user._id;
-
         // نجيب أول بوست خاص بالمستخدم
         // نجيب أول بوستين خاصين بالمستخدم
         this.authService.getUserPosts(this.userId).subscribe({
@@ -321,18 +322,27 @@ export class SocialHomeComponent {
       }
     });
   }
-
   deleteComment(commentId: string, postId: string) {
     this.authService.deleteComment(commentId).subscribe({
       next: () => {
         console.log('Comment deleted successfully');
-        this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Comment deleted successfully' });
-        // هنا ممكن تحدث UI أو تعيد تحميل الكومنتات
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Deleted',
+          detail: 'Comment deleted successfully'
+        });
+  
+        this.reloadPosts(); // ✅ إعادة تحميل البوستات بعد الحذف
       },
       error: (err) => {
         console.error('Failed to delete comment', err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete comment' });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to delete comment'
+        });
       },
     });
   }
+  
 }

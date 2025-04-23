@@ -20,7 +20,7 @@
           <span class="font-bold text-xl mx-2 cursor-pointer">
             <i class="pi pi-users mr-2"></i> Friends
           </span>
-          <span class="font-bold text-xl mx-2 cursor-pointer">
+          <span class="hiddenn  font-bold text-xl mx-2 cursor-pointer">
             <i class="pi pi-bell mr-2"></i> notice
           </span>
         </div>
@@ -58,7 +58,7 @@
     <!-- 🟦 Left Side: Online Friends -->
 
     <div
-      class="hidden md:block w-4/12 h-screen w-15-percent fixed left-0 top-10 z-10 overflow-y-auto"
+      class="hiddenn md:block w-4/12 h-screen w-15-percent fixed left-0 top-10 z-10 overflow-y-auto"
     >
       <app-online-friends></app-online-friends>
     </div>
@@ -66,7 +66,7 @@
     <!-- 🟨 Center: Posts -->
     <app-loading-home
       *ngIf="loading"
-      class="md:w-5/12 px-3 mt-2 p-2 mx-auto relative top-10"
+      class=" px-3 mt-2 p-2 mx-auto relative top-10"
     ></app-loading-home>
 
     <div
@@ -148,7 +148,7 @@
             <div>
               <strong>{{ post.user.name }}</strong>
               <p class="m-0 text-sm text-gray-400">
-                {{ post.createdAt | date : "medium" }}
+                {{ post.createdAt | customDate }}
               </p>
             </div>
           </div>
@@ -270,7 +270,7 @@
 
     <!-- 🟩 Right side (optional, reserve space) -->
     <div
-      class="hidden md:block w-3/12 pl-px-3 w-15-perc fixed right-10 top-10 z-10 h-screen "
+      class="hiddenn md:block w-3/12 pl-px-3 w-15-perc fixed right-10 top-10 z-10 h-screen "
     >
   
 
@@ -293,6 +293,7 @@
     [isEditMode]="isEditing"
     (onPostUpdated)="reloadPosts()"
     (onClose)="closeDialog()"
+    
   ></app-popup-post>
 </p-dialog>
 

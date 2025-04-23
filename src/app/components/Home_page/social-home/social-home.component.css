@@ -209,7 +209,7 @@ body {
   z-index: 1000 !important;
 }
 .z-11110{
-  z-index: 11110 !important;
+ 
   background-color: #00000076;
 }
 .top-10{
@@ -221,4 +221,9 @@ body {
 
 .left-0{
   left: 0 !important;
+}
+@media (max-width: 900px) {
+.hiddenn {
+  display: none !important;
+}
 }

@@ -55,7 +55,7 @@ body {
 
 /* عند عرض نموذج التسجيل */
 .signup-card.register-mode {
-    height: 81vh !important;
+    height: 85vh !important;
 }
 @keyframes zoomInDown {
     from {
@@ -115,4 +115,34 @@ body {
     font-size: 2rem;
     font-weight: bold;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+    margin: 0;
+    margin-top: 16px;
+    
+    padding: 0;
 }
+.signup-card p {
+    color: var(--dark-gray-o);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+}
+@media (max-width: 900px) {
+    .signup-card {
+      max-width: 85% !important;
+      height: 50vh !important;
+    }
+  
+    .signup-card.login-mode {
+      height: 50vh !important;
+    }
+  
+    .signup-card.register-mode {
+      height: 61vh !important;
+    }
+  }
+  

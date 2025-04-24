@@ -7,10 +7,10 @@ import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'authentication', pathMatch: 'full' },
+  { path: '', redirectTo: '/authentication', pathMatch: 'full' }, // ✅ ده التعديل
   { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
   { path: 'social-home', component: SocialHomeComponent, canActivate: [AuthGuard] },
-  { path: 'authentication', component: AuthenticationComponent ,canActivate: [NoAuthGuard]  },
-  { path: '**', redirectTo: 'authentication', pathMatch: 'full' }
+  { path: 'authentication', component: AuthenticationComponent, canActivate: [NoAuthGuard] },
+  { path: '**', redirectTo: '/authentication', pathMatch: 'full' } // اختياري تعدله بنفس الطريقة
 ];

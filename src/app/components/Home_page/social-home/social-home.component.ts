@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
@@ -16,7 +16,7 @@ import { EditPostComponent } from '../edit-post/edit-post.component';
 import { DeletePostComponent } from '../delete-post/delete-post.component';
 import { FormsModule } from '@angular/forms';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
-
+import { effect } from '@angular/core';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { EditCommentComponent } from '../edit-comment/edit-comment.component';
@@ -56,15 +56,20 @@ import { CustomDatePipe } from '../../../pipes/custom-date.pipe';
 export class SocialHomeComponent {
   items = [];
   private authService = inject(AuthService);
-  userName: string = '';
-  userImg: string = '';
-  editingPost: any = null;
+  
+   editingPost: any = null;
   isEditing: boolean = false;
-  userId: string = '';
+  
   rightBar: any;
+  userName = signal('');
+userImg = signal('');
+userId = signal('');
+posts = signal<any[]>([]);
+loading = signal(true);
+
   // الخصائص
   selectedPost: any = null; // سيتم تعيين البوست الذي سيتم تعديله هنا
-  posts: any[] = [];
+  
   showPopup: boolean = false;
   showPostDialog = false;
   bodyText: string = ''; // Property to hold the text of the post being edited
@@ -72,73 +77,56 @@ export class SocialHomeComponent {
   commentInputs: { [postId: string]: string } = {};
   commentToDelete: { commentId: string; postId: string } | null = null;
   showDeleteCommentDialog: boolean = false;
-  loading = true;
-  ngOnInit(): void {
+  
+  loadUserDataEffect = effect(() => {
     this.authService.getUserProfile().subscribe({
       next: (res) => {
-        this.userName = res.user.name;
-        this.userImg = res.user.photo;
-        this.userId = res.user._id;
-        // نجيب أول بوست خاص بالمستخدم
-        // نجيب أول بوستين خاصين بالمستخدم
-        this.authService.getUserPosts(this.userId).subscribe({
+        this.userName.set(res.user.name);
+        this.userImg.set(res.user.photo);
+        this.userId.set(res.user._id);
+  
+        this.authService.getUserPosts(res.user._id).subscribe({
           next: (userPostsRes) => {
-            const userPosts = userPostsRes.posts.slice(0, 2); // أول اتنين بوست ليه
-           
-            // نجيب كل البوستات العامة
+            const userPosts = userPostsRes.posts.slice(0, 2);
+  
             this.authService.getAllPosts().subscribe({
               next: (res) => {
                 const allPosts = res.posts.map((post: any) => ({
                   ...post,
-                  showComments: false,
+                  showComments: false
                 }));
-
-                if (userPosts.length > 0) {
-                  const userPostsWithFlags = userPosts.map((post: any) => ({
-                    ...post,
-                    showComments: false,
-                    isUserPost: true,
-                  
-                  
-                  }));
-                  this.loading = false
-                  const filteredPosts = allPosts.filter(
-                    (p: { _id: string }) =>
-                      !userPosts.some((up: any) => up._id === p._id)
-                  );
-
-                  this.posts = [...userPostsWithFlags, ...filteredPosts];
-                } else {
-                  this.posts = allPosts;
-                }
-                this.loading = false;
+  
+                const userPostsWithFlags = userPosts.map((post: any) => ({
+                  ...post,
+                  showComments: false,
+                  isUserPost: true
+                }));
+  
+                const filteredPosts = allPosts.filter(
+                  (p: any) => !userPosts.some((up: any) => up._id === p._id)
+                );
+  
+                this.posts.set([...userPostsWithFlags, ...filteredPosts]);
+                this.loading.set(false);
               },
               error: (err) => {
                 console.error('Error fetching all posts:', err);
-              },
+                this.loading.set(false);
+              }
             });
           },
           error: (err) => {
             console.error('Error fetching user posts:', err);
-            this.loading = false;
-          },
+            this.loading.set(false);
+          }
         });
       },
       error: (err) => {
         console.error('Error fetching profile data:', err);
-      },
+        this.loading.set(false);
+      }
     });
-    // this.authService.getUserPosts(this.userId).subscribe({
-    //   next: (res) => {
-    //     this.posts = res.posts;
-    //     this.loading = false;
-    //   },
-    //   error: () => {
-    //     this.loading = false;
-    //   }
-    // });
-  }
-
+  });
   private router = inject(Router);
 
   menuItems = [
@@ -189,27 +177,27 @@ export class SocialHomeComponent {
     return null;
   }
   toggleMenu(post: any, isComment: boolean = false) {
-    if (!isComment) {
-      // أغلق المنيو الخاص بالبوستات
-      this.posts.forEach((p) => {
-        if (p !== post) p.showMenu = false; // هنا بنغلق المنيو الخاص بالبوستات
+  if (!isComment) {
+    // أغلق المنيو الخاص بالبوستات
+    this.posts().forEach((p: any) => {
+      if (p !== post) p.showMenu = false;
+    });
+    post.showMenu = !post.showMenu;
+  } else {
+    // أغلق المنيو الخاص بالكومنتات
+    this.posts().forEach((p: any) => {
+      p.comments?.forEach((c: any) => {
+        if (c !== post) c.showCommentMenu = false;
       });
-      post.showMenu = !post.showMenu; // هنا بنفتح المنيو الخاص بالبوست
-    } else {
-      // أغلق المنيو الخاص بالكومنتات
-      this.posts.forEach((p) => {
-        p.comments.forEach((c: any) => {
-          if (c !== post) c.showCommentMenu = false; // هنا بنغلق المنيو الخاص بالكومنت
-        });
-      });
-      post.showCommentMenu = !post.showCommentMenu; // هنا بنفتح المنيو الخاص بالكومنت
-    }
+    });
+    post.showCommentMenu = !post.showCommentMenu;
   }
+}
 
   // الدوال
   reloadPosts(): void {
     // من الممكن استدعاء API هنا لإعادة تحميل البوستات أو تحديثها
-    this.ngOnInit(); // يمكنك استدعاء ngOnInit لإعادة تحميل البوستات
+    this.loadUserDataEffect // يمكنك استدعاء ngOnInit لإعادة تحميل البوستات
   }
 
   closeDialog(): void {

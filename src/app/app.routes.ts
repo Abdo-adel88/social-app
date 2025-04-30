@@ -1,16 +1,41 @@
 import { Routes } from '@angular/router';
-import { AuthenticationComponent } from './components/authentication/authentication/authentication.component';
-import { SocialHomeComponent } from './components/Home_page/social-home/social-home.component';
-import { LoginComponent } from './components/login/login/login.component';
-import { RegisterComponent } from './components/sign_up/register/register.component';
+import { provideRouter } from '@angular/router';
+import { inject } from '@angular/core';
 import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/authentication', pathMatch: 'full' }, // ✅ ده التعديل
-  { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuard] },
-  { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
-  { path: 'social-home', component: SocialHomeComponent, canActivate: [AuthGuard] },
-  { path: 'authentication', component: AuthenticationComponent, canActivate: [NoAuthGuard] },
-  { path: '**', redirectTo: '/authentication', pathMatch: 'full' } // اختياري تعدله بنفس الطريقة
+  { path: '', redirectTo: '/authentication', pathMatch: 'full' },
+
+  {
+    path: 'authentication',
+    canActivate: [() => inject(NoAuthGuard).canActivate()],
+    loadComponent: () =>
+      import('./components/authentication/authentication/authentication.component')
+        .then(m => m.AuthenticationComponent)
+  },
+  {
+    path: 'login',
+    canActivate: [() => inject(NoAuthGuard).canActivate()],
+    loadComponent: () =>
+      import('./components/login/login/login.component')
+        .then(m => m.LoginComponent)
+  },
+  {
+    path: 'register',
+    canActivate: [() => inject(NoAuthGuard).canActivate()],
+    loadComponent: () =>
+      import('./components/sign_up/register/register.component')
+        .then(m => m.RegisterComponent)
+  },
+  {
+    path: 'social-home',
+    canActivate: [() => inject(AuthGuard).canActivate()],
+    loadComponent: () =>
+      import('./components/Home_page/social-home/social-home.component')
+        .then(m => m.SocialHomeComponent)
+  },
+
+  { path: '**', redirectTo: '/authentication', pathMatch: 'full' }
 ];
+
